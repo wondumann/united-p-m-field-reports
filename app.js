@@ -66,7 +66,20 @@ function bindEvents() {
   });
 
   document.querySelector("#saveBtn").addEventListener("click", saveDraft);
+
   document.querySelector("#printBtn").addEventListener("click", () => window.print());
+
+  document.querySelector("#submitBtn").addEventListener("click", async () => {
+    const state = collectState();
+
+    const success = await saveToGoogleSheets(state);
+
+    if (success) {
+      showToast("Report submitted successfully.");
+    } else {
+      showToast("Submission failed.");
+    }
+  });
 
   document.addEventListener("input", () => {
     localStorage.setItem(currentStateKey, JSON.stringify(collectState()));
