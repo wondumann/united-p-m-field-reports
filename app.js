@@ -330,7 +330,37 @@ function createId() {
   }
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
+async function saveToGoogleSheets(state) {
+  try {
+    const response = await fetch(
+      "https://script.google.com/macros/s/AKfycbwcdIQvGAV42sCenjPdq1Gk3RNDiLxQAzY-YI6erEIMoSFQ3aupnF8kYS-kbf2Kqv20TQ/exec",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          project: state.common.projectName || "",
+          supervisor: state.fields.supervisor || "",
+          crewSize: state.tables.signinTable
+            ? state.tables.signinTable.length
+            : 0,
+          hours: "",
+          reportId: state.id,
+          pdfLink: ""
+        })
+      }
+    );
 
+    const result = await response.json();
+    console.log("Google Sheets:", result);
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
 let toastTimeout;
 function showToast(message) {
   toast.textContent = message;
