@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SDWMR Field Forms</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-group">
+        <img class="brand-logo" src="assets/aecon-capital-logo.svg" alt="Aecon Capital Joint Venture">
+        <div>
+          <p class="eyebrow">SDWMR 19A</p>
+          <h1>Field Forms</h1>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-button" id="printBtn" type="button" title="Print current form" aria-label="Print current form">Print</button>
+        <button class="primary-button" id="saveBtn" type="button">Save Draft</button>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <aside class="sidebar" aria-label="Form navigation">
+        <button class="nav-item active" type="button" data-form="daily">Daily Report</button>
+        <button class="nav-item" type="button" data-form="equipment">Equipment Safety</button>
+        <button class="nav-item" type="button" data-form="signin">Sign-In Sheet</button>
+        <button class="nav-item" type="button" data-form="safety">Safety / Notes</button>
+        <button class="nav-item" type="button" data-form="rocip6">ROCIP 6 Check List</button>
+        <button class="nav-item" type="button" data-form="jarr">JARR CARD</button>
+        <button class="nav-item" type="button" data-form="drafts">Saved Drafts</button>
+      </aside>
+
+      <section class="workspace" aria-live="polite">
+        <div class="project-strip">
+          <label>
+            Project
+            <input id="projectName" name="projectName" autocomplete="organization" value="SDWMR 19A">
+          </label>
+          <label>
+            Date
+            <input id="workDate" name="workDate" type="date">
+          </label>
+          <label>
+            Prepared By
+            <input id="preparedBy" name="preparedBy" autocomplete="name" placeholder="Foreman / PM">
+          </label>
+          <label>
+            Weather
+            <input id="weather" name="weather" placeholder="Clear, 74 F">
+          </label>
+        </div>
+
+        <form id="fieldForm">
+          <section class="form-panel active" data-panel="daily">
+            <div class="section-heading">
+              <h2>Daily Report</h2>
+              <p>Capture labor, equipment, visitors, delays, and a field narrative.</p>
+            </div>
+
+            <div class="field-grid two">
+              <label>
+                Work Area
+                <input name="daily.workArea" placeholder="Station, floor, zone, or address">
+              </label>
+              <label>
+                Shift
+                <select name="daily.shift">
+                  <option>Day</option>
+                  <option>Night</option>
+                  <option>Weekend</option>
+                  <option>Emergency</option>
+                </select>
+              </label>
+              <label>
+                Crew Count
+                <input name="daily.crewCount" type="number" min="0" placeholder="0">
+              </label>
+              <label>
+                Equipment Used
+                <input name="daily.equipment" placeholder="Excavator, loader, trench box">
+              </label>
+            </div>
+
+            <label>
+              Work Performed
+              <textarea name="daily.workPerformed" rows="5" placeholder="Summarize completed work, locations, materials placed, and inspections."></textarea>
+            </label>
+
+            <div class="field-grid two">
+              <label>
+                Delays / Impacts
+                <textarea name="daily.delays" rows="4" placeholder="Weather, utilities, access, material, design questions."></textarea>
+              </label>
+              <label>
+                Visitors / Inspections
+                <textarea name="daily.visitors" rows="4" placeholder="Owner, engineer, inspector, safety, deliveries."></textarea>
+              </label>
+            </div>
+          </section>
+
+          <section class="form-panel" data-panel="equipment">
+            <div class="section-heading">
+              <h2>Equipment Safety Checklist</h2>
+              <p>Document daily equipment inspections, hazards, corrective actions, and operator sign-off.</p>
+            </div>
+
+            <div class="table-actions">
+              <button type="button" class="secondary-button" data-add-row="equipmentTable">Add Equipment</button>
+              <button type="button" class="secondary-button" data-export="equipmentTable">Export CSV</button>
+            </div>
+
+            <div class="table-wrap">
+              <table id="equipmentTable">
+                <thead>
+                  <tr>
+                    <th>Equipment</th>
+                    <th>ID / Unit #</th>
+                    <th>Operator</th>
+                    <th>Checklist Item</th>
+                    <th>Status</th>
+                    <th>Corrective Action</th>
+                    <th>Sign-Off</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="form-panel" data-panel="signin">
+            <div class="section-heading">
+              <h2>Sign-In Sheet</h2>
+              <p>Record employees, subcontractors, start times, end times, and signatures.</p>
+            </div>
+
+            <div class="table-actions">
+              <button type="button" class="secondary-button" data-add-row="signinTable">Add Person</button>
+              <button type="button" class="secondary-button" data-export="signinTable">Export CSV</button>
+            </div>
+
+            <div class="table-wrap">
+              <table id="signinTable">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Company</th>
+                    <th>Role</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Signature</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="form-panel" data-panel="safety">
+            <div class="section-heading">
+              <h2>Safety / Notes</h2>
+              <p>Use this for toolbox topics, incidents, photos to attach later, and PM follow-up.</p>
+            </div>
+
+            <div class="field-grid two">
+              <label>
+                Toolbox Topic
+                <input name="safety.topic" placeholder="Excavation, traffic control, PPE">
+              </label>
+              <label>
+                Incident / Near Miss
+                <select name="safety.incident">
+                  <option>No</option>
+                  <option>Yes</option>
+                </select>
+              </label>
+            </div>
+            <label>
+              Safety Notes
+              <textarea name="safety.notes" rows="5" placeholder="Hazards reviewed, controls used, incidents, corrective actions."></textarea>
+            </label>
+            <label>
+              PM Follow-Up
+              <textarea name="safety.followup" rows="4" placeholder="RFIs, owner questions, material needs, schedule issues."></textarea>
+            </label>
+          </section>
+
+          <section class="form-panel" data-panel="rocip6">
+            <div class="section-heading">
+              <div>
+                <h2>ROCIP 6 Check List</h2>
+                <p>Pre-excavation checklist based on the ROCIP excavation and trenching permit form.</p>
+              </div>
+              <a class="pdf-link" href="assets/ROCIP-6-Pre-Excavation-Checklist.pdf" target="_blank" rel="noopener">Open PDF</a>
+            </div>
+
+            <div class="rocip-title-row">
+              <h3>Excavation &amp; Trenching Check List</h3>
+              <label>
+                Miss Utility Permit #
+                <input name="rocip6.missUtilityPermit" placeholder="Permit number">
+              </label>
+              <label>
+                Checklist Date
+                <input name="rocip6.checklistDate" type="date">
+              </label>
+            </div>
+
+            <div class="checklist-section">
+              <h3>Section 1 - Preparation</h3>
+              <p>Contractor's qualified person or safety manager completes Section 1.</p>
+              <div class="field-grid two">
+                <label>
+                  Job Name / Contract Number
+                  <input name="rocip6.jobName">
+                </label>
+                <label>
+                  Name of Contractor
+                  <input name="rocip6.contractorName">
+                </label>
+                <label>
+                  Location of the Excavation Work
+                  <input name="rocip6.excavationLocation">
+                </label>
+                <label>
+                  Description of Excavation Work
+                  <input name="rocip6.workDescription">
+                </label>
+                <label>
+                  Third Party Utility Locating Company Name
+                  <input name="rocip6.locatingCompany">
+                </label>
+                <label>
+                  Locator Employee Name
+                  <input name="rocip6.locatorEmployee">
+                </label>
+              </div>
+              <label>
+                Private Utilities Verification Signatures
+                <input name="rocip6.privateUtilitySignatures">
+              </label>
+
+              <div class="checklist-table-wrap">
+                <table class="checklist-table rocip-prep-table">
+                  <thead>
+                    <tr>
+                      <th>Items Required Prior to Opening an Excavation</th>
+                      <th>Yes</th>
+                      <th>No</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Pre-planning meeting with DC Water</td>
+                      <td><input type="radio" name="rocip6.prePlanningMeeting" value="Yes" aria-label="Pre-planning meeting yes"></td>
+                      <td><input type="radio" name="rocip6.prePlanningMeeting" value="No" aria-label="Pre-planning meeting no"></td>
+                    </tr>
+                    <tr>
+                      <td>Plans reviewed for existing utilities</td>
+                      <td><input type="radio" name="rocip6.plansReviewed" value="Yes" aria-label="Plans reviewed yes"></td>
+                      <td><input type="radio" name="rocip6.plansReviewed" value="No" aria-label="Plans reviewed no"></td>
+                    </tr>
+                    <tr>
+                      <td>Utility grid sweep conducted of the entire excavation area and 5 feet beyond marked excavation perimeter</td>
+                      <td><input type="radio" name="rocip6.utilitySweep" value="Yes" aria-label="Utility sweep yes"></td>
+                      <td><input type="radio" name="rocip6.utilitySweep" value="No" aria-label="Utility sweep no"></td>
+                    </tr>
+                    <tr>
+                      <td>Pre-excavation photos taken showing utility markings prior to excavating</td>
+                      <td><input type="radio" name="rocip6.preExcavationPhotos" value="Yes" aria-label="Pre-excavation photos yes"></td>
+                      <td><input type="radio" name="rocip6.preExcavationPhotos" value="No" aria-label="Pre-excavation photos no"></td>
+                    </tr>
+                    <tr>
+                      <td>Utilities marked and utilities physically / visually located by hand dig, pot hole, or hydroexcavate</td>
+                      <td><input type="radio" name="rocip6.utilitiesLocated" value="Yes" aria-label="Utilities located yes"></td>
+                      <td><input type="radio" name="rocip6.utilitiesLocated" value="No" aria-label="Utilities located no"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="checklist-section">
+              <h3>Section 2 - Excavation</h3>
+              <p>Contractor's competent person completes Section 2.</p>
+              <div class="field-grid two">
+                <label>
+                  Competent Person Name
+                  <input name="rocip6.competentPerson">
+                </label>
+                <label>
+                  Soil Type
+                  <input name="rocip6.soilType">
+                </label>
+                <label>
+                  Slope Ratio
+                  <input name="rocip6.slopeRatio">
+                </label>
+                <label>
+                  Protective System Used
+                  <input name="rocip6.protectiveSystem" placeholder="Tabulated data submitted to DC Water">
+                </label>
+                <label>
+                  Excavation / Trench Depth
+                  <input name="rocip6.trenchDepth">
+                </label>
+                <label>
+                  Excavation / Trench Width
+                  <input name="rocip6.trenchWidth">
+                </label>
+              </div>
+              <p class="note-line">Soils that have been previously disturbed, such as existing utilities or sewer, are classified as C type soils.</p>
+            </div>
+
+            <div class="checklist-section">
+              <h3>Section 3 - Hazard Assessment and Control</h3>
+              <p>Contractor's competent person completes Section 3.</p>
+              <div class="checklist-table-wrap">
+                <table class="checklist-table rocip-control-table">
+                  <thead>
+                    <tr>
+                      <th>Controls to be Implemented</th>
+                      <th>Completed</th>
+                      <th>N/A</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Competent person has inspected excavation, adjacent areas, and protective systems prior to employees performing work in the excavation / trench.</td>
+                      <td><input type="radio" name="rocip6.controlInspection" value="Completed" aria-label="Inspection completed"></td>
+                      <td><input type="radio" name="rocip6.controlInspection" value="N/A" aria-label="Inspection not applicable"></td>
+                    </tr>
+                    <tr>
+                      <td>Professional engineer was obtained to approve excavation of greater than 20 feet depth.</td>
+                      <td><input type="radio" name="rocip6.controlEngineer" value="Completed" aria-label="Engineer approval completed"></td>
+                      <td><input type="radio" name="rocip6.controlEngineer" value="N/A" aria-label="Engineer approval not applicable"></td>
+                    </tr>
+                    <tr>
+                      <td>Trench area has restricted access via physical barrier for vehicle traffic and guardrails or fencing 6 feet back for pedestrian protection.</td>
+                      <td><input type="radio" name="rocip6.controlRestrictedAccess" value="Completed" aria-label="Restricted access completed"></td>
+                      <td><input type="radio" name="rocip6.controlRestrictedAccess" value="N/A" aria-label="Restricted access not applicable"></td>
+                    </tr>
+                    <tr>
+                      <td>Employees protected from loose rock / soil that could pose a hazard by falling or rolling into the excavation / trench.</td>
+                      <td><input type="radio" name="rocip6.controlLooseRock" value="Completed" aria-label="Loose rock control completed"></td>
+                      <td><input type="radio" name="rocip6.controlLooseRock" value="N/A" aria-label="Loose rock control not applicable"></td>
+                    </tr>
+                    <tr>
+                      <td>Trench is shored and / or sloped per CFR 1926 Subpart P requirements.</td>
+                      <td><input type="radio" name="rocip6.controlShoredSloped" value="Completed" aria-label="Shored or sloped completed"></td>
+                      <td><input type="radio" name="rocip6.controlShoredSloped" value="N/A" aria-label="Shored or sloped not applicable"></td>
+                    </tr>
+                    <tr>
+                      <td>Trench is free from standing water and other contaminants.</td>
+                      <td><input type="radio" name="rocip6.controlWater" value="Completed" aria-label="Water control completed"></td>
+                      <td><input type="radio" name="rocip6.controlWater" value="N/A" aria-label="Water control not applicable"></td>
+                    </tr>
+                    <tr>
+                      <td>Excavated material, equipment, and other items will be placed at least 2 feet from edge of trench.</td>
+                      <td><input type="radio" name="rocip6.controlSpoilPile" value="Completed" aria-label="Spoil pile control completed"></td>
+                      <td><input type="radio" name="rocip6.controlSpoilPile" value="N/A" aria-label="Spoil pile control not applicable"></td>
+                    </tr>
+                    <tr>
+                      <td>Employees are prohibited from working under suspended loads.</td>
+                      <td><input type="radio" name="rocip6.controlSuspendedLoads" value="Completed" aria-label="Suspended loads completed"></td>
+                      <td><input type="radio" name="rocip6.controlSuspendedLoads" value="N/A" aria-label="Suspended loads not applicable"></td>
+                    </tr>
+                    <tr>
+                      <td>Walkways and bridges over excavations / trenches 6 feet or more in depth have standard guardrails and toe boards.</td>
+                      <td><input type="radio" name="rocip6.controlWalkways" value="Completed" aria-label="Walkways completed"></td>
+                      <td><input type="radio" name="rocip6.controlWalkways" value="N/A" aria-label="Walkways not applicable"></td>
+                    </tr>
+                    <tr>
+                      <td>Trench box system meets regulatory requirements. Tabulated datasheets are available on site.</td>
+                      <td><input type="radio" name="rocip6.controlTrenchBox" value="Completed" aria-label="Trench box completed"></td>
+                      <td><input type="radio" name="rocip6.controlTrenchBox" value="N/A" aria-label="Trench box not applicable"></td>
+                    </tr>
+                    <tr>
+                      <td>Underground utilities protected, supported, or removed when excavation is open. P.E. may be required for supporting utilities.</td>
+                      <td><input type="radio" name="rocip6.controlUtilities" value="Completed" aria-label="Utilities protected completed"></td>
+                      <td><input type="radio" name="rocip6.controlUtilities" value="N/A" aria-label="Utilities protected not applicable"></td>
+                    </tr>
+                    <tr>
+                      <td>Wood used for shoring or bracing is in good condition and free from defects.</td>
+                      <td><input type="radio" name="rocip6.controlWoodShoring" value="Completed" aria-label="Wood shoring completed"></td>
+                      <td><input type="radio" name="rocip6.controlWoodShoring" value="N/A" aria-label="Wood shoring not applicable"></td>
+                    </tr>
+                    <tr>
+                      <td>Ladder provided in trench greater than 4 feet depth with ladder extending at least 3 feet above top of trench.</td>
+                      <td><input type="radio" name="rocip6.controlLadder" value="Completed" aria-label="Ladder completed"></td>
+                      <td><input type="radio" name="rocip6.controlLadder" value="N/A" aria-label="Ladder not applicable"></td>
+                    </tr>
+                    <tr>
+                      <td>Ladder, ramp, or stair is provided within 25 feet of all personnel working in trench.</td>
+                      <td><input type="radio" name="rocip6.controlAccess" value="Completed" aria-label="Access completed"></td>
+                      <td><input type="radio" name="rocip6.controlAccess" value="N/A" aria-label="Access not applicable"></td>
+                    </tr>
+                    <tr>
+                      <td>Air testing was performed at 4 feet depth or more for oxygen, LEL, and toxics.</td>
+                      <td><input type="radio" name="rocip6.controlAirTesting" value="Completed" aria-label="Air testing completed"></td>
+                      <td><input type="radio" name="rocip6.controlAirTesting" value="N/A" aria-label="Air testing not applicable"></td>
+                    </tr>
+                    <tr>
+                      <td>Soils classified as B type soil shall have first bench 6 feet.</td>
+                      <td><input type="radio" name="rocip6.controlSoilBench" value="Completed" aria-label="Soil bench completed"></td>
+                      <td><input type="radio" name="rocip6.controlSoilBench" value="N/A" aria-label="Soil bench not applicable"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <label>
+                Air Testing Results
+                <input name="rocip6.airTestingResults" placeholder="Oxygen, LEL, toxics, readings, or notes">
+              </label>
+            </div>
+
+            <div class="checklist-section">
+              <h3>Section 4 - Approvals</h3>
+              <p>I have reviewed this permit and all conditions and agree that work can proceed safely.</p>
+              <div class="field-grid two">
+                <label>
+                  Contractor Project Manager Name &amp; Signature
+                  <input name="rocip6.projectManagerSignature">
+                </label>
+                <label>
+                  Project Manager Date
+                  <input name="rocip6.projectManagerDate" type="date">
+                </label>
+                <label>
+                  Competent Person Name, Title &amp; Signature
+                  <input name="rocip6.competentPersonSignature">
+                </label>
+                <label>
+                  Competent Person Date
+                  <input name="rocip6.competentPersonDate" type="date">
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section class="form-panel" data-panel="jarr">
+            <div class="section-heading">
+              <div>
+                <h2>JARR CARD</h2>
+                <p>Job Assessment Risk Review card with hazards, controls, job steps, employee sign-off, and closeout.</p>
+              </div>
+              <a class="pdf-link" href="assets/JARR-Card.pdf" target="_blank" rel="noopener">Open PDF</a>
+            </div>
+
+            <div class="jarr-card">
+              <div class="jarr-header">
+                <img class="jarr-logo" src="assets/aecon-jarr-logo.svg" alt="AECON">
+                <div>
+                  <h3>JARR</h3>
+                  <p>Job Assessment Risk Review</p>
+                </div>
+                <img class="energy-wheel" src="assets/jarr-energy-wheel.jpg" alt="Energy Wheel">
+              </div>
+
+              <div class="field-grid three">
+                <label>
+                  Project
+                  <input name="jarr.project">
+                </label>
+                <label>
+                  Date
+                  <input name="jarr.date" type="date">
+                </label>
+                <label>
+                  Company
+                  <input name="jarr.company">
+                </label>
+                <label>
+                  Supervisor
+                  <input name="jarr.supervisor">
+                </label>
+                <label>
+                  Safety Rep
+                  <input name="jarr.safetyRep">
+                </label>
+                <label>
+                  Completed By
+                  <input name="jarr.completedBy">
+                </label>
+                <label>
+                  First Aider
+                  <input name="jarr.firstAider">
+                </label>
+                <label>
+                  Permit #
+                  <input name="jarr.permit">
+                </label>
+                <label>
+                  Emergency #
+                  <input name="jarr.emergencyNumber">
+                </label>
+              </div>
+
+              <label>
+                Describe the Task
+                <textarea name="jarr.taskDescription" rows="3"></textarea>
+              </label>
+
+              <div class="jarr-stop-row">
+                <span>NO = STOP WORK</span>
+                <label class="inline-check"><input type="checkbox" name="jarr.properLocates"> Proper locates</label>
+                <label class="inline-check"><input type="checkbox" name="jarr.nopForm1000"> NOP / Form 1000</label>
+                <label class="inline-check"><input type="checkbox" name="jarr.overheadHazardsVisible"> Overhead hazards visible</label>
+              </div>
+
+              <div class="checklist-section">
+                <h3>Hazards and Controls</h3>
+                <p>Identify all applicable hazards and controls required before work begins.</p>
+                <div class="hazard-grid">
+                  <fieldset>
+                    <legend>Energy Wheel</legend>
+                    <label><input type="checkbox" name="jarr.energyMechanical"> Mechanical</label>
+                    <label><input type="checkbox" name="jarr.energyElectrical"> Electrical</label>
+                    <label><input type="checkbox" name="jarr.energyPressure"> Pressure</label>
+                    <label><input type="checkbox" name="jarr.energyTemperature"> Temperature</label>
+                    <label><input type="checkbox" name="jarr.energyChemical"> Chemical</label>
+                    <label><input type="checkbox" name="jarr.energyBiological"> Biological</label>
+                    <label><input type="checkbox" name="jarr.energyRadiation"> Radiation</label>
+                    <label><input type="checkbox" name="jarr.energySound"> Sound</label>
+                    <label><input type="checkbox" name="jarr.energyGravity"> Gravity</label>
+                    <label><input type="checkbox" name="jarr.energyMotion"> Motion</label>
+                  </fieldset>
+
+                  <fieldset>
+                    <legend>Common Hazards</legend>
+                    <label><input type="checkbox" name="jarr.hazardTraffic"> Vehicle traffic</label>
+                    <label><input type="checkbox" name="jarr.hazardElectrical"> Electrical hazard</label>
+                    <label><input type="checkbox" name="jarr.hazardLiveEquipment"> Live equipment</label>
+                    <label><input type="checkbox" name="jarr.hazardHoisting"> Hoisting / rigging failure</label>
+                    <label><input type="checkbox" name="jarr.hazardSpills"> Spills / releases</label>
+                    <label><input type="checkbox" name="jarr.hazardWeather"> Inclement / extreme weather</label>
+                    <label><input type="checkbox" name="jarr.hazardNoise"> Noise</label>
+                    <label><input type="checkbox" name="jarr.hazardLineOfFire"> Line of fire / struck by</label>
+                    <label><input type="checkbox" name="jarr.hazardFallingMaterial"> Falling material</label>
+                    <label><input type="checkbox" name="jarr.hazardPinchPoints"> Pinch points</label>
+                  </fieldset>
+
+                  <fieldset>
+                    <legend>Controls</legend>
+                    <label><input type="checkbox" name="jarr.controlTrafficPlan"> Traffic plan / signage / barriers</label>
+                    <label><input type="checkbox" name="jarr.controlHiVis"> Reflective garments / hi-vis</label>
+                    <label><input type="checkbox" name="jarr.controlSpotter"> Signal person / spotter</label>
+                    <label><input type="checkbox" name="jarr.controlPpe"> Required PPE</label>
+                    <label><input type="checkbox" name="jarr.controlLockout"> Lockout / zero energy confirmed</label>
+                    <label><input type="checkbox" name="jarr.controlTagLines"> Tag lines / touch-free tools</label>
+                    <label><input type="checkbox" name="jarr.controlGuarding"> Guards / temporary guarding</label>
+                    <label><input type="checkbox" name="jarr.controlSpillKit"> Spill response equipment</label>
+                    <label><input type="checkbox" name="jarr.controlWeather"> Heat, wind, lightning controls</label>
+                    <label><input type="checkbox" name="jarr.controlOther"> Other controls</label>
+                  </fieldset>
+
+                  <fieldset>
+                    <legend>Site Specific</legend>
+                    <label><input type="checkbox" name="jarr.siteGroundDisturbance"> Ground disturbance</label>
+                    <label><input type="checkbox" name="jarr.siteHydrovac"> Hydro-vacs</label>
+                    <label><input type="checkbox" name="jarr.siteNightWork"> Night work</label>
+                    <label><input type="checkbox" name="jarr.siteSubcontractors"> Subcontractors</label>
+                    <label><input type="checkbox" name="jarr.siteWelding"> Welding flash mitigation</label>
+                    <label><input type="checkbox" name="jarr.sitePipeHauling"> Pipe hauling and stringing</label>
+                    <label><input type="checkbox" name="jarr.siteCrane"> Crane / overhead hazards</label>
+                    <label><input type="checkbox" name="jarr.siteSecurity"> Site theft / security</label>
+                    <label><input type="checkbox" name="jarr.sitePedestrians"> Pedestrians / public right of way</label>
+                    <label><input type="checkbox" name="jarr.siteOther"> Other site condition</label>
+                  </fieldset>
+                </div>
+                <label>
+                  Other Hazards / Controls
+                  <textarea name="jarr.otherHazards" rows="3"></textarea>
+                </label>
+              </div>
+
+              <div class="checklist-section">
+                <h3>Job Steps</h3>
+                <p>Identify job steps, hazards, and controls for each step.</p>
+                <div class="table-actions">
+                  <button type="button" class="secondary-button" data-add-row="jarrJobStepTable">Add Step</button>
+                  <button type="button" class="secondary-button" data-export="jarrJobStepTable">Export CSV</button>
+                </div>
+                <div class="table-wrap">
+                  <table id="jarrJobStepTable">
+                    <thead>
+                      <tr>
+                        <th>Job Step</th>
+                        <th>Hazards</th>
+                        <th>Controls</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="field-grid three">
+                <label>
+                  Nearest First Aid / Medical Assistance
+                  <input name="jarr.medicalAssistance">
+                </label>
+                <label>
+                  Muster Location
+                  <input name="jarr.musterLocation">
+                </label>
+                <label>
+                  Identify Emergency #
+                  <input name="jarr.emergencyContact">
+                </label>
+              </div>
+
+              <div class="checklist-section">
+                <h3>Employee Sign-Off</h3>
+                <p>By signing, employees acknowledge identified hazards, required controls, and PPE inspection before use.</p>
+                <div class="table-actions">
+                  <button type="button" class="secondary-button" data-add-row="jarrEmployeeTable">Add Employee</button>
+                  <button type="button" class="secondary-button" data-export="jarrEmployeeTable">Export CSV</button>
+                </div>
+                <div class="table-wrap">
+                  <table id="jarrEmployeeTable">
+                    <thead>
+                      <tr>
+                        <th>Employee Name / Company</th>
+                        <th>Signature</th>
+                        <th>Start</th>
+                        <th>Mid-Day</th>
+                        <th>End of Shift</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="checklist-section">
+                <h3>Job Completion</h3>
+                <label>
+                  Job completion / protection / temporary jobsite securement measures
+                  <textarea name="jarr.completionMeasures" rows="3" placeholder="Snow fence, speed fence, T-post cover, housekeeping, hazard signs, road plate, caution tape, security, other."></textarea>
+                </label>
+                <div class="field-grid three">
+                  <label>
+                    All permits closed out?
+                    <select name="jarr.permitsClosed">
+                      <option></option>
+                      <option>Yes</option>
+                      <option>No</option>
+                      <option>N/A</option>
+                    </select>
+                  </label>
+                  <label>
+                    Work area cleaned / barriers as necessary?
+                    <select name="jarr.areaCleaned">
+                      <option></option>
+                      <option>Yes</option>
+                      <option>No</option>
+                    </select>
+                  </label>
+                  <label>
+                    Hazards remaining?
+                    <select name="jarr.hazardsRemaining">
+                      <option></option>
+                      <option>Yes</option>
+                      <option>No</option>
+                    </select>
+                  </label>
+                </div>
+                <label>
+                  Remaining Hazards Explanation
+                  <textarea name="jarr.remainingHazardsExplain" rows="2"></textarea>
+                </label>
+                <label>
+                  Accidents / Incidents / Safety Opportunities / Near Misses
+                  <textarea name="jarr.incidentExplain" rows="2"></textarea>
+                </label>
+                <div class="field-grid three">
+                  <label>
+                    Supervisor Name
+                    <input name="jarr.supervisorCloseoutName">
+                  </label>
+                  <label>
+                    Supervisor Signature
+                    <input name="jarr.supervisorCloseoutSignature">
+                  </label>
+                  <label>
+                    Date
+                    <input name="jarr.supervisorCloseoutDate" type="date">
+                  </label>
+                </div>
+                <label>
+                  Comments
+                  <textarea name="jarr.comments" rows="3"></textarea>
+                </label>
+              </div>
+            </div>
+          </section>
+        </form>
+
+        <section class="form-panel" data-panel="drafts">
+          <div class="section-heading">
+            <h2>Saved Drafts</h2>
+            <p>Drafts are stored in this browser for quick field use.</p>
+          </div>
+          <div id="draftList" class="draft-list"></div>
+        </section>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

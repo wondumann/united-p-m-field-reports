@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 210" role="img" aria-labelledby="title desc">
+  <title id="title">Aecon Capital Joint Venture</title>
+  <desc id="desc">Aecon Capital Joint Venture logo</desc>
+  <rect width="980" height="210" fill="#fff"/>
+  <g transform="translate(44 38)">
+    <text x="0" y="72" fill="#ed1c24" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="82" font-style="italic" font-weight="900" letter-spacing="5">AECON</text>
+    <line x1="472" y1="6" x2="472" y2="82" stroke="#4a4f55" stroke-width="3"/>
+    <text x="504" y="72" fill="#18365f" font-family="Georgia, 'Times New Roman', serif" font-size="76" font-weight="700" letter-spacing="6">CAPITAL</text>
+    <text x="314" y="140" fill="#6a6d70" font-family="Arial, Helvetica, sans-serif" font-size="43" font-weight="300" letter-spacing="12">Joint Venture</text>
+  </g>
+</svg>
