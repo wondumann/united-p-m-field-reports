@@ -345,27 +345,32 @@ function createId() {
 }
 async function saveToGoogleSheets(state) {
   try {
+    const formData = new FormData();
+
+    formData.append(
+      "data",
+      JSON.stringify({
+        project: state.common.projectName || "",
+        supervisor: state.fields.supervisor || "",
+        crewSize: state.tables.signinTable
+          ? state.tables.signinTable.length
+          : 0,
+        hours: "",
+        reportId: state.id,
+        pdfLink: ""
+      })
+    );
+
     const response = await fetch(
       "https://script.google.com/macros/s/AKfycbwcdIQvGAV42sCenjPdq1Gk3RNDiLxQAzY-YI6erEIMoSFQ3aupnF8kYS-kbf2Kqv20TQ/exec",
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          project: state.common.projectName || "",
-          supervisor: state.fields.supervisor || "",
-          crewSize: state.tables.signinTable
-            ? state.tables.signinTable.length
-            : 0,
-          hours: "",
-          reportId: state.id,
-          pdfLink: ""
-        })
+        body: formData
       }
     );
 
-    const result = await response.json();
+    const result = await response.text();
+
     console.log("Google Sheets:", result);
 
     return true;
