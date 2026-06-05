@@ -361,6 +361,7 @@ async function saveToGoogleSheets(state) {
       })
     );
 
+    const response = await fetch(
     await fetch(
       "https://script.google.com/macros/s/AKfycbwcdIQvGAV42sCenjPdq1Gk3RNDiLxQAzY-YI6erEIMoSFQ3aupnF8kYS-kbf2Kqv20TQ/exec",
       {
@@ -370,12 +371,17 @@ async function saveToGoogleSheets(state) {
       }
     );
 
+    const result = await response.text();
+
+    console.log("Google Sheets:", result);
+
     return true;
   } catch (error) {
     console.error(error);
     return false;
   }
-}let toastTimeout;
+}
+let toastTimeout;
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add("show");
