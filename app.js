@@ -375,8 +375,7 @@ async function saveToGoogleSheets(state) {
     console.error(error);
     return false;
   }
-}
-let toastTimeout;
+}let toastTimeout;
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add("show");
