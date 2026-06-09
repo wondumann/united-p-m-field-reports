@@ -440,3 +440,45 @@ async function testGoogleSheets() {
     alert("Test failed.");
   }
 }
+async function submitRealReport() {
+  try {
+
+    const project =
+      document.querySelector("#projectName")?.value || "";
+
+    const supervisor =
+      document.querySelector("#supervisor")?.value || "";
+
+    const reportId =
+      crypto.randomUUID();
+
+    const formData = new FormData();
+
+    formData.append(
+      "data",
+      JSON.stringify({
+        project,
+        supervisor,
+        reportId,
+        timestamp: new Date().toISOString()
+      })
+    );
+
+    await fetch(
+      "https://script.google.com/macros/s/AKfycbwcdIQvGAV42sCenjPdq1Gk3RNDiLxQAzY-YI6erEIMoSFQ3aupnF8kYS-kbf2Kqv20TQ/exec",
+      {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+      }
+    );
+
+    alert("Report submitted successfully.");
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert("Submission failed.");
+  }
+}
