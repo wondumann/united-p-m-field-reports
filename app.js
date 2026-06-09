@@ -386,3 +386,30 @@ function showToast(message) {
   clearTimeout(toastTimeout);
   toastTimeout = setTimeout(() => toast.classList.remove("show"), 2600);
 }
+async function testGoogleSheets() {
+  try {
+    const formData = new FormData();
+
+    formData.append(
+      "data",
+      JSON.stringify({
+        test: "Connection Successful",
+        timestamp: new Date().toISOString()
+      })
+    );
+
+    await fetch(
+      "https://script.google.com/macros/s/AKfycbwcdIQvGAV42sCenjPdq1Gk3RNDiLxQAzY-YI6erEIMoSFQ3aupnF8kYS-kbf2Kqv20TQ/exec",
+      {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+      }
+    );
+
+    alert("Test submitted.");
+  } catch (error) {
+    console.error(error);
+    alert("Test failed.");
+  }
+}
