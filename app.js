@@ -678,7 +678,7 @@ async function generateRocip6PDF() {
     heightLeft -= pageHeight;
   }
 
-  const pdfBlob =
+const pdfBlob =
   pdf.output("blob");
 
 const reader =
@@ -694,7 +694,7 @@ reader.onloadend =
 
     const response =
       await fetch(
-        "YOUR_APPS_SCRIPT_WEB_APP_URL",
+        "https://script.google.com/u/1/home/projects/1rAkbg5QyJilnQProtQNQgv2cj29YlQ3sCeg3WgoYfFWZ5J6HLFllP9-L/edit",
         {
           method: "POST",
           body: JSON.stringify({
