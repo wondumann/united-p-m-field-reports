@@ -588,14 +588,42 @@ async function generatePDFReport(returnBase64 = false) {
 }
 async function generateRocip6PDF() {
 
-  const element =
-    document.getElementById("rocip6Form");
+  const original =
+    document.querySelector(
+      '[data-panel="rocip6"]'
+    );
+
+  if (!original) {
+
+    alert("ROCIP6 form not found.");
+
+    return;
+  }
+
+  const clone =
+    original.cloneNode(true);
+
+  clone.style.position = "absolute";
+
+  clone.style.left = "-9999px";
+
+  clone.style.top = "0";
+
+  clone.style.width = "1400px";
+
+  clone.style.background = "white";
+
+  clone.style.padding = "20px";
+
+  document.body.appendChild(clone);
 
   const canvas =
-    await html2canvas(element, {
+    await html2canvas(clone, {
       scale: 2,
       useCORS: true
     });
+
+  document.body.removeChild(clone);
 
   const imageData =
     canvas.toDataURL("image/png");
@@ -603,14 +631,14 @@ async function generateRocip6PDF() {
   const { jsPDF } = window.jspdf;
 
   const pdf = new jsPDF(
-    "p",
+    "l",
     "mm",
     "a4"
   );
 
-  const pdfWidth = 210;
+  const pdfWidth = 297;
 
-  const pageHeight = 295;
+  const pageHeight = 210;
 
   const imgWidth = pdfWidth;
 
@@ -650,7 +678,5 @@ async function generateRocip6PDF() {
     heightLeft -= pageHeight;
   }
 
-  pdf.save(
-    "ROCIP6_Checklist.pdf"
-  );
+  pdf.save("ROCIP6_Checklist.pdf");
 }
