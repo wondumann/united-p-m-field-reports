@@ -505,3 +505,52 @@ async function submitRealReport() {
     alert("Submission failed.");
   }
 }
+async function generatePDFReport() {
+
+  const { jsPDF } = window.jspdf;
+
+  const doc = new jsPDF();
+
+  const project =
+    document.querySelector("#projectName")?.value || "";
+
+  const workDate =
+    document.querySelector("#workDate")?.value || "";
+
+  const supervisor =
+    document.querySelector("#preparedBy")?.value || "";
+
+  const weather =
+    document.querySelector("#weather")?.value || "";
+
+  const workPerformed =
+    document.querySelector('[name="daily.workPerformed"]')?.value || "";
+
+  const safetyNotes =
+    document.querySelector('[name="safety.notes"]')?.value || "";
+
+  doc.setFontSize(18);
+
+  doc.text("United P&M Daily Field Report", 20, 20);
+
+  doc.setFontSize(12);
+
+  doc.text(`Project: ${project}`, 20, 40);
+  doc.text(`Date: ${workDate}`, 20, 50);
+  doc.text(`Supervisor: ${supervisor}`, 20, 60);
+  doc.text(`Weather: ${weather}`, 20, 70);
+
+  doc.text("Work Performed:", 20, 90);
+  doc.text(workPerformed || "-", 20, 100, {
+    maxWidth: 170
+  });
+
+  doc.text("Safety Notes:", 20, 140);
+  doc.text(safetyNotes || "-", 20, 150, {
+    maxWidth: 170
+  });
+
+  doc.save(
+    `Field_Report_${project}_${workDate}.pdf`
+  );
+}
