@@ -476,10 +476,16 @@ async function submitRealReport() {
       followup:
         document.querySelector('[name="safety.followup"]')?.value || "",
 
+      pdfBase64: pdfData.base64,
+      fileName: pdfData.fileName,
+
       reportId: crypto.randomUUID(),
       timestamp: new Date().toISOString()
     };
 
+    const pdfData =
+      await generatePDFReport(true);
+    
     const formData = new FormData();
 
     formData.append(
@@ -505,7 +511,7 @@ async function submitRealReport() {
     alert("Submission failed.");
   }
 }
-async function generatePDFReport() {
+async function generatePDFReport(returnBase64 = false) {
 
   const { jsPDF } = window.jspdf;
 
@@ -541,16 +547,50 @@ async function generatePDFReport() {
   doc.text(`Weather: ${weather}`, 20, 70);
 
   doc.text("Work Performed:", 20, 90);
+
   doc.text(workPerformed || "-", 20, 100, {
     maxWidth: 170
   });
 
   doc.text("Safety Notes:", 20, 140);
+
   doc.text(safetyNotes || "-", 20, 150, {
     maxWidth: 170
   });
 
-  doc.save(
-    `Field_Report_${project}_${workDate}.pdf`
-  );
+  const fileName =
+    `Field_Report_${project}_${workDate}.pdf`;
+
+  if (returnBase64) {
+
+    const pdfBlob = doc.output("blob");
+
+    const base64 = await blobToBase64(pdfBlob);
+
+    return {
+      base64,
+      fileName
+    };
+  }
+
+  doc.save(fileName);
+}
+function blobToBase64(blob) {
+
+  return new Promise((resolve, reject) => {
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+
+      const base64data =
+        reader.result.split(",")[1];
+
+      resolve(base64data);
+    };
+
+    reader.onerror = reject;
+
+    reader.readAsDataURL(blob);
+  });
 }
