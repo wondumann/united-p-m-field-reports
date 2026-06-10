@@ -443,25 +443,48 @@ async function testGoogleSheets() {
 async function submitRealReport() {
   try {
 
-    const project =
-      document.querySelector("#projectName")?.value || "";
+    const reportData = {
+      project: document.querySelector("#projectName")?.value || "",
+      workDate: document.querySelector("#workDate")?.value || "",
+      supervisor: document.querySelector("#preparedBy")?.value || "",
+      weather: document.querySelector("#weather")?.value || "",
 
-    const supervisor =
-      document.querySelector("#supervisor")?.value || "";
+      workArea:
+        document.querySelector('[name="daily.workArea"]')?.value || "",
 
-    const reportId =
-      crypto.randomUUID();
+      crewCount:
+        document.querySelector('[name="daily.crewCount"]')?.value || "",
+
+      equipment:
+        document.querySelector('[name="daily.equipment"]')?.value || "",
+
+      workPerformed:
+        document.querySelector('[name="daily.workPerformed"]')?.value || "",
+
+      delays:
+        document.querySelector('[name="daily.delays"]')?.value || "",
+
+      visitors:
+        document.querySelector('[name="daily.visitors"]')?.value || "",
+
+      safetyTopic:
+        document.querySelector('[name="safety.topic"]')?.value || "",
+
+      safetyNotes:
+        document.querySelector('[name="safety.notes"]')?.value || "",
+
+      followup:
+        document.querySelector('[name="safety.followup"]')?.value || "",
+
+      reportId: crypto.randomUUID(),
+      timestamp: new Date().toISOString()
+    };
 
     const formData = new FormData();
 
     formData.append(
       "data",
-      JSON.stringify({
-        project,
-        supervisor,
-        reportId,
-        timestamp: new Date().toISOString()
-      })
+      JSON.stringify(reportData)
     );
 
     await fetch(
