@@ -563,9 +563,9 @@ async function generatePDFReport(returnBase64 = false) {
 
   if (returnBase64) {
 
-    const pdfBlob = doc.output("blob");
-
-    const base64 = await blobToBase64(pdfBlob);
+    const base64 =
+      doc.output("datauristring")
+        .split(",")[1];
 
     return {
       base64,
@@ -574,23 +574,4 @@ async function generatePDFReport(returnBase64 = false) {
   }
 
   doc.save(fileName);
-}
-function blobToBase64(blob) {
-
-  return new Promise((resolve, reject) => {
-
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-
-      const base64data =
-        reader.result.split(",")[1];
-
-      resolve(base64data);
-    };
-
-    reader.onerror = reject;
-
-    reader.readAsDataURL(blob);
-  });
 }
