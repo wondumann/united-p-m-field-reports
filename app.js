@@ -441,16 +441,25 @@ async function testGoogleSheets() {
   }
 }
 async function submitRealReport() {
+
   try {
-    
+
     const pdfData =
       await generatePDFReport(true);
 
     const reportData = {
-      project: document.querySelector("#projectName")?.value || "",
-      workDate: document.querySelector("#workDate")?.value || "",
-      supervisor: document.querySelector("#preparedBy")?.value || "",
-      weather: document.querySelector("#weather")?.value || "",
+
+      project:
+        document.querySelector("#projectName")?.value || "",
+
+      workDate:
+        document.querySelector("#workDate")?.value || "",
+
+      supervisor:
+        document.querySelector("#preparedBy")?.value || "",
+
+      weather:
+        document.querySelector("#weather")?.value || "",
 
       workArea:
         document.querySelector('[name="daily.workArea"]')?.value || "",
@@ -480,15 +489,14 @@ async function submitRealReport() {
         document.querySelector('[name="safety.followup"]')?.value || "",
 
       pdfBase64: pdfData.base64,
+
       fileName: pdfData.fileName,
 
       reportId: crypto.randomUUID(),
+
       timestamp: new Date().toISOString()
     };
 
-    const pdfData =
-      await generatePDFReport(true);
-    
     const formData = new FormData();
 
     formData.append(
