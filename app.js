@@ -678,8 +678,45 @@ async function generateRocip6PDF() {
     heightLeft -= pageHeight;
   }
 
-  pdf.save("ROCIP6_Checklist.pdf");
-}
+  const pdfBlob =
+  pdf.output("blob");
+
+const reader =
+  new FileReader();
+
+reader.readAsDataURL(pdfBlob);
+
+reader.onloadend =
+  async function () {
+
+    const base64data =
+      reader.result.split(",")[1];
+
+    const response =
+      await fetch(
+        "YOUR_APPS_SCRIPT_WEB_APP_URL",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            uploadType: "rocip6",
+            pdfData: base64data,
+            fileName:
+              "ROCIP6_" +
+              Date.now() +
+              ".pdf"
+          })
+        }
+      );
+
+    const pdfUrl =
+      await response.text();
+
+    window.open(
+      pdfUrl,
+      "_blank"
+    );
+};
+
 async function generateJarrPDF() {
 
   const original =
