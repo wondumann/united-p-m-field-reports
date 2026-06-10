@@ -678,23 +678,13 @@ async function generateRocip6PDF() {
     heightLeft -= pageHeight;
   }
 
-const pdfBlob =
-  pdf.output("blob");
+const base64data =
+  pdf.output("datauristring")
+    .split(",")[1];
 
-const reader =
-  new FileReader();
+alert("Base64 created");
 
-reader.readAsDataURL(pdfBlob);
-
-reader.onloadend =
-  async function () {
-
-    alert("Reader started");
-
-    const base64data =
-      reader.result.split(",")[1];
-
-   await fetch(
+await fetch(
   "https://script.google.com/macros/s/AKfycbxf4Y8v2zwatimXYWqlJpARbScWtxVYPrLYEQH6du1rIJ10V6StmuLCRj2hQAWSLaHCjQ/exec",
   {
     method: "POST",
@@ -709,7 +699,7 @@ reader.onloadend =
   }
 );
 
-alert("ROCIP6 upload sent.");
+alert("ROCIP6 upload sent");
 };
 }
 async function generateJarrPDF() {
