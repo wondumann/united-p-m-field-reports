@@ -362,7 +362,7 @@ async function saveToGoogleSheets(state) {
     );
 
     const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbwcdIQvGAV42sCenjPdq1Gk3RNDiLxQAzY-YI6erEIMoSFQ3aupnF8kYS-kbf2Kqv20TQ/exec",
+      "https://script.google.com/macros/s/AKfycbyM21dW0PbKcNeGNuehpBQaIpPF_jKd7eM_2J0p_KUe3gpXvDxPE4gNUz3IV-WnuTJzYQ/exec",
       {
         method: "POST",
         body: formData
