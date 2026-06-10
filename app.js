@@ -505,7 +505,7 @@ async function submitRealReport() {
     );
 
     await fetch(
-      "https://script.google.com/macros/s/AKfycbwcdIQvGAV42sCenjPdq1Gk3RNDiLxQAzY-YI6erEIMoSFQ3aupnF8kYS-kbf2Kqv20TQ/exec",
+      "https://script.google.com/macros/s/AKfycbyYyBVu9VWWA-S_aP7irYeycmJUgBeaFp1sDlde4eEOwRI77NMYnatOH_uvIqKeOnbbgw/exec",
       {
         method: "POST",
         mode: "no-cors",
