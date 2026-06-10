@@ -442,6 +442,9 @@ async function testGoogleSheets() {
 }
 async function submitRealReport() {
   try {
+    
+    const pdfData =
+      await generatePDFReport(true);
 
     const reportData = {
       project: document.querySelector("#projectName")?.value || "",
