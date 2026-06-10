@@ -386,3 +386,203 @@ function showToast(message) {
   clearTimeout(toastTimeout);
   toastTimeout = setTimeout(() => toast.classList.remove("show"), 2600);
 }
+async function testGoogleSheets() {
+  try {
+    const formData = new FormData();
+
+    formData.append(
+      "data",
+      JSON.stringify({
+        test: "Connection Successful",
+        timestamp: new Date().toISOString()
+      })
+    );
+
+    await fetch(
+      "https://script.google.com/macros/s/AKfycbwcdIQvGAV42sCenjPdq1Gk3RNDiLxQAzY-YI6erEIMoSFQ3aupnF8kYS-kbf2Kqv20TQ/exec",
+      {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+      }
+    );
+
+    alert("Test submitted.");
+  } catch (error) {
+    console.error(error);
+    alert("Test failed.");
+  }
+}
+async function testGoogleSheets() {
+  try {
+    const formData = new FormData();
+
+    formData.append(
+      "data",
+      JSON.stringify({
+        test: "Connection Successful",
+        timestamp: new Date().toISOString()
+      })
+    );
+
+    await fetch(
+      "https://script.google.com/macros/s/AKfycbxN9JCebJkR8z8it3o8SNJ92Y7JcnDcBp62VUfWZpzZ4tISIVB5JfxWv7A_g5q7uh3TNQ/exec",
+      {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+      }
+    );
+
+    alert("Test submitted.");
+  } catch (error) {
+    console.error(error);
+    alert("Test failed.");
+  }
+}
+async function submitRealReport() {
+
+  try {
+
+    const pdfData =
+      await generatePDFReport(true);
+
+    const reportData = {
+
+      project:
+        document.querySelector("#projectName")?.value || "",
+
+      workDate:
+        document.querySelector("#workDate")?.value || "",
+
+      supervisor:
+        document.querySelector("#preparedBy")?.value || "",
+
+      weather:
+        document.querySelector("#weather")?.value || "",
+
+      workArea:
+        document.querySelector('[name="daily.workArea"]')?.value || "",
+
+      crewCount:
+        document.querySelector('[name="daily.crewCount"]')?.value || "",
+
+      equipment:
+        document.querySelector('[name="daily.equipment"]')?.value || "",
+
+      workPerformed:
+        document.querySelector('[name="daily.workPerformed"]')?.value || "",
+
+      delays:
+        document.querySelector('[name="daily.delays"]')?.value || "",
+
+      visitors:
+        document.querySelector('[name="daily.visitors"]')?.value || "",
+
+      safetyTopic:
+        document.querySelector('[name="safety.topic"]')?.value || "",
+
+      safetyNotes:
+        document.querySelector('[name="safety.notes"]')?.value || "",
+
+      followup:
+        document.querySelector('[name="safety.followup"]')?.value || "",
+
+      pdfBase64: pdfData.base64,
+
+      fileName: pdfData.fileName,
+
+      reportId: crypto.randomUUID(),
+
+      timestamp: new Date().toISOString()
+    };
+
+    const formData = new FormData();
+
+    formData.append(
+      "data",
+      JSON.stringify(reportData)
+    );
+
+    await fetch(
+      "https://script.google.com/macros/s/AKfycbyYyBVu9VWWA-S_aP7irYeycmJUgBeaFp1sDlde4eEOwRI77NMYnatOH_uvIqKeOnbbgw/exec",
+      {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+      }
+    );
+
+    alert("Report submitted successfully.");
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert("Submission failed.");
+  }
+}
+async function generatePDFReport(returnBase64 = false) {
+
+  const { jsPDF } = window.jspdf;
+
+  const doc = new jsPDF();
+
+  const project =
+    document.querySelector("#projectName")?.value || "";
+
+  const workDate =
+    document.querySelector("#workDate")?.value || "";
+
+  const supervisor =
+    document.querySelector("#preparedBy")?.value || "";
+
+  const weather =
+    document.querySelector("#weather")?.value || "";
+
+  const workPerformed =
+    document.querySelector('[name="daily.workPerformed"]')?.value || "";
+
+  const safetyNotes =
+    document.querySelector('[name="safety.notes"]')?.value || "";
+
+  doc.setFontSize(18);
+
+  doc.text("United P&M Daily Field Report", 20, 20);
+
+  doc.setFontSize(12);
+
+  doc.text(`Project: ${project}`, 20, 40);
+  doc.text(`Date: ${workDate}`, 20, 50);
+  doc.text(`Supervisor: ${supervisor}`, 20, 60);
+  doc.text(`Weather: ${weather}`, 20, 70);
+
+  doc.text("Work Performed:", 20, 90);
+
+  doc.text(workPerformed || "-", 20, 100, {
+    maxWidth: 170
+  });
+
+  doc.text("Safety Notes:", 20, 140);
+
+  doc.text(safetyNotes || "-", 20, 150, {
+    maxWidth: 170
+  });
+
+  const fileName =
+    `Field_Report_${project}_${workDate}.pdf`;
+
+  if (returnBase64) {
+
+    const base64 =
+      doc.output("datauristring")
+        .split(",")[1];
+
+    return {
+      base64,
+      fileName
+    };
+  }
+
+  doc.save(fileName);
+}

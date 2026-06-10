@@ -1,3 +1,4 @@
+<!-- testing branch -->
 <!doctype html>
 <html lang="en">
   <head>
@@ -5,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SDWMR Field Forms</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   </head>
   <body>
     <header class="topbar">
@@ -22,9 +24,15 @@
         <button class="primary-button" id="saveBtn" type="button">
           Save Draft
         </button>
-        <button type="button" id="submitBtn" class="primary-button">
+        <button type="button" onclick="submitRealReport()">
           Submit Report
         </button>
+        <button type="button" onclick="generatePDFReport()">
+          Generate PDF
+        </button>
+        <button type="button" onclick="testGoogleSheets()">
+          Test Google
+        </button>  
       </div>
     </header>
 
