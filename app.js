@@ -630,11 +630,12 @@ async function generateRocip6PDF() {
 
   const { jsPDF } = window.jspdf;
 
-  const pdf = new jsPDF(
-    "l",
-    "mm",
-    "a4"
-  );
+  const pdf =
+    new jsPDF(
+      "l",
+      "mm",
+      "a4"
+    );
 
   const pdfWidth = 297;
 
@@ -643,9 +644,12 @@ async function generateRocip6PDF() {
   const imgWidth = pdfWidth;
 
   const imgHeight =
-    canvas.height * imgWidth / canvas.width;
+    canvas.height *
+    imgWidth /
+    canvas.width;
 
-  let heightLeft = imgHeight;
+  let heightLeft =
+    imgHeight;
 
   let position = 0;
 
@@ -662,7 +666,8 @@ async function generateRocip6PDF() {
 
   while (heightLeft > 0) {
 
-    position = heightLeft - imgHeight;
+    position =
+      heightLeft - imgHeight;
 
     pdf.addPage();
 
@@ -678,44 +683,9 @@ async function generateRocip6PDF() {
     heightLeft -= pageHeight;
   }
 
-const pdfBlob =
-  pdf.output("blob");
-
-const reader =
-  new FileReader();
-
-reader.readAsDataURL(pdfBlob);
-
-reader.onloadend =
-  async function () {
-
-    const base64data =
-      reader.result.split(",")[1];
-
-    const response =
-      await fetch(
-        "https://script.google.com/u/1/home/projects/1rAkbg5QyJilnQProtQNQgv2cj29YlQ3sCeg3WgoYfFWZ5J6HLFllP9-L/edit",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            uploadType: "rocip6",
-            pdfData: base64data,
-            fileName:
-              "ROCIP6_" +
-              Date.now() +
-              ".pdf"
-          })
-        }
-      );
-
-    const pdfUrl =
-      await response.text();
-
-    window.open(
-      pdfUrl,
-      "_blank"
-    );
-};
+  pdf.save(
+    "ROCIP6_Checklist.pdf"
+  );
 }
 async function generateJarrPDF() {
 
@@ -761,11 +731,12 @@ async function generateJarrPDF() {
 
   const { jsPDF } = window.jspdf;
 
-  const pdf = new jsPDF(
-    "p",
-    "mm",
-    "a4"
-  );
+  const pdf =
+    new jsPDF(
+      "p",
+      "mm",
+      "a4"
+    );
 
   const pdfWidth = 210;
 
@@ -774,9 +745,12 @@ async function generateJarrPDF() {
   const imgWidth = pdfWidth;
 
   const imgHeight =
-    canvas.height * imgWidth / canvas.width;
+    canvas.height *
+    imgWidth /
+    canvas.width;
 
-  let heightLeft = imgHeight;
+  let heightLeft =
+    imgHeight;
 
   let position = 0;
 
@@ -793,7 +767,8 @@ async function generateJarrPDF() {
 
   while (heightLeft > 0) {
 
-    position = heightLeft - imgHeight;
+    position =
+      heightLeft - imgHeight;
 
     pdf.addPage();
 
@@ -809,5 +784,7 @@ async function generateJarrPDF() {
     heightLeft -= pageHeight;
   }
 
-  pdf.save("JARR_Card.pdf");
+  pdf.save(
+    "JARR_Card.pdf"
+  );
 }
