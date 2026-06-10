@@ -692,29 +692,22 @@ reader.onloadend =
     const base64data =
       reader.result.split(",")[1];
 
-    const response =
-      await fetch(
-        "https://script.google.com/macros/s/AKfycbxf4Y8v2zwatimXYWqlJpARbScWtxVYPrLYEQH6du1rIJ10V6StmuLCRj2hQAWSLaHCjQ/exec",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            uploadType: "rocip6",
-            pdfData: base64data,
-            fileName:
-              "ROCIP6_" +
-              Date.now() +
-              ".pdf"
-          })
-        }
-      );
+   await fetch(
+  "https://script.google.com/macros/s/AKfycbxf4Y8v2zwatimXYWqlJpARbScWtxVYPrLYEQH6du1rIJ10V6StmuLCRj2hQAWSLaHCjQ/exec",
+  {
+    method: "POST",
+    body: JSON.stringify({
+      uploadType: "rocip6",
+      pdfData: base64data,
+      fileName:
+        "ROCIP6_" +
+        Date.now() +
+        ".pdf"
+    })
+  }
+);
 
-    const pdfUrl =
-      await response.text();
-
-    window.open(
-      pdfUrl,
-      "_blank"
-    );
+alert("ROCIP6 upload sent.");
 };
 }
 async function generateJarrPDF() {
