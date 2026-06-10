@@ -716,7 +716,7 @@ reader.onloadend =
       "_blank"
     );
 };
-
+}
 async function generateJarrPDF() {
 
   const original =
