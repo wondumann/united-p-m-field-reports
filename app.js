@@ -586,3 +586,71 @@ async function generatePDFReport(returnBase64 = false) {
 
   doc.save(fileName);
 }
+async function generateRocip6PDF() {
+
+  const element =
+    document.getElementById("rocip6Form");
+
+  const canvas =
+    await html2canvas(element, {
+      scale: 2,
+      useCORS: true
+    });
+
+  const imageData =
+    canvas.toDataURL("image/png");
+
+  const { jsPDF } = window.jspdf;
+
+  const pdf = new jsPDF(
+    "p",
+    "mm",
+    "a4"
+  );
+
+  const pdfWidth = 210;
+
+  const pageHeight = 295;
+
+  const imgWidth = pdfWidth;
+
+  const imgHeight =
+    canvas.height * imgWidth / canvas.width;
+
+  let heightLeft = imgHeight;
+
+  let position = 0;
+
+  pdf.addImage(
+    imageData,
+    "PNG",
+    0,
+    position,
+    imgWidth,
+    imgHeight
+  );
+
+  heightLeft -= pageHeight;
+
+  while (heightLeft > 0) {
+
+    position = heightLeft - imgHeight;
+
+    pdf.addPage();
+
+    pdf.addImage(
+      imageData,
+      "PNG",
+      0,
+      position,
+      imgWidth,
+      imgHeight
+    );
+
+    heightLeft -= pageHeight;
+  }
+
+  pdf.save(
+    "ROCIP6_Checklist.pdf"
+  );
+}
