@@ -689,6 +689,8 @@ reader.readAsDataURL(pdfBlob);
 reader.onloadend =
   async function () {
 
+    alert("Reader started");
+
     const base64data =
       reader.result.split(",")[1];
 
