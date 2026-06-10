@@ -694,7 +694,7 @@ reader.onloadend =
 
     const response =
       await fetch(
-        "https://script.google.com/macros/s/AKfycbzHUQEZ75b-HaNV_GuTYyUsFqLW17VvKXYDdoiN59aavt0iIKnps2l15QZAnvBIB39Myg/exec",
+        "https://script.google.com/macros/s/AKfycbxf4Y8v2zwatimXYWqlJpARbScWtxVYPrLYEQH6du1rIJ10V6StmuLCRj2hQAWSLaHCjQ/exec",
         {
           method: "POST",
           body: JSON.stringify({
