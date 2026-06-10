@@ -678,28 +678,43 @@ async function generateRocip6PDF() {
     heightLeft -= pageHeight;
   }
 
-const base64data =
-  pdf.output("datauristring")
-    .split(",")[1];
+const pdfBlob =
+  pdf.output("blob");
 
-alert("Base64 created");
+const reader =
+  new FileReader();
 
-await fetch(
-  "https://script.google.com/macros/s/AKfycbxf4Y8v2zwatimXYWqlJpARbScWtxVYPrLYEQH6du1rIJ10V6StmuLCRj2hQAWSLaHCjQ/exec",
-  {
-    method: "POST",
-    body: JSON.stringify({
-      uploadType: "rocip6",
-      pdfData: base64data,
-      fileName:
-        "ROCIP6_" +
-        Date.now() +
-        ".pdf"
-    })
-  }
-);
+reader.readAsDataURL(pdfBlob);
 
-alert("ROCIP6 upload sent");
+reader.onloadend =
+  async function () {
+
+    const base64data =
+      reader.result.split(",")[1];
+
+    const response =
+      await fetch(
+        "https://script.google.com/u/1/home/projects/1rAkbg5QyJilnQProtQNQgv2cj29YlQ3sCeg3WgoYfFWZ5J6HLFllP9-L/edit",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            uploadType: "rocip6",
+            pdfData: base64data,
+            fileName:
+              "ROCIP6_" +
+              Date.now() +
+              ".pdf"
+          })
+        }
+      );
+
+    const pdfUrl =
+      await response.text();
+
+    window.open(
+      pdfUrl,
+      "_blank"
+    );
 };
 }
 async function generateJarrPDF() {
