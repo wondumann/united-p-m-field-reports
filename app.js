@@ -426,7 +426,7 @@ async function testGoogleSheets() {
     );
 
     await fetch(
-      "https://script.google.com/macros/s/AKfycbzC02EX16pi_JbSy0sbTqfOUMAqK6WS2585VPfbCaDscMo1B7io2D3EfQ10ZrBM8GVf1A/exec",
+      "https://script.google.com/macros/s/AKfycbxN9JCebJkR8z8it3o8SNJ92Y7JcnDcBp62VUfWZpzZ4tISIVB5JfxWv7A_g5q7uh3TNQ/exec",
       {
         method: "POST",
         mode: "no-cors",
