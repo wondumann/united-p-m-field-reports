@@ -65,6 +65,14 @@ button {
   flex: 0 0 auto;
 }
 
+.brand-group {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+}
 .eyebrow {
   margin: 0 0 2px;
   color: var(--accent);
