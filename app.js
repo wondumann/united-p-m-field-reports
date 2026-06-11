@@ -362,7 +362,7 @@ async function saveToGoogleSheets(state) {
     );
 
     const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbwcdIQvGAV42sCenjPdq1Gk3RNDiLxQAzY-YI6erEIMoSFQ3aupnF8kYS-kbf2Kqv20TQ/exec",
+      "https://script.google.com/macros/s/AKfycbyM21dW0PbKcNeGNuehpBQaIpPF_jKd7eM_2J0p_KUe3gpXvDxPE4gNUz3IV-WnuTJzYQ/exec",
       {
         method: "POST",
         body: formData
@@ -585,4 +585,206 @@ async function generatePDFReport(returnBase64 = false) {
   }
 
   doc.save(fileName);
+}
+async function generateRocip6PDF() {
+
+  const original =
+    document.querySelector(
+      '[data-panel="rocip6"]'
+    );
+
+  if (!original) {
+
+    alert("ROCIP6 form not found.");
+
+    return;
+  }
+
+  const clone =
+    original.cloneNode(true);
+
+  clone.style.position = "absolute";
+
+  clone.style.left = "-9999px";
+
+  clone.style.top = "0";
+
+  clone.style.width = "1400px";
+
+  clone.style.background = "white";
+
+  clone.style.padding = "20px";
+
+  document.body.appendChild(clone);
+
+  const canvas =
+    await html2canvas(clone, {
+      scale: 2,
+      useCORS: true
+    });
+
+  document.body.removeChild(clone);
+
+  const imageData =
+    canvas.toDataURL("image/png");
+
+  const { jsPDF } = window.jspdf;
+
+  const pdf =
+    new jsPDF(
+      "l",
+      "mm",
+      "a4"
+    );
+
+  const pdfWidth = 297;
+
+  const pageHeight = 210;
+
+  const imgWidth = pdfWidth;
+
+  const imgHeight =
+    canvas.height *
+    imgWidth /
+    canvas.width;
+
+  let heightLeft =
+    imgHeight;
+
+  let position = 0;
+
+  pdf.addImage(
+    imageData,
+    "PNG",
+    0,
+    position,
+    imgWidth,
+    imgHeight
+  );
+
+  heightLeft -= pageHeight;
+
+  while (heightLeft > 0) {
+
+    position =
+      heightLeft - imgHeight;
+
+    pdf.addPage();
+
+    pdf.addImage(
+      imageData,
+      "PNG",
+      0,
+      position,
+      imgWidth,
+      imgHeight
+    );
+
+    heightLeft -= pageHeight;
+  }
+
+  pdf.save(
+    "ROCIP6_Checklist.pdf"
+  );
+}
+async function generateJarrPDF() {
+
+  const original =
+    document.querySelector(
+      '[data-panel="jarr"]'
+    );
+
+  if (!original) {
+
+    alert("JARR form not found.");
+
+    return;
+  }
+
+  const clone =
+    original.cloneNode(true);
+
+  clone.style.position = "absolute";
+
+  clone.style.left = "-9999px";
+
+  clone.style.top = "0";
+
+  clone.style.width = "1400px";
+
+  clone.style.background = "white";
+
+  clone.style.padding = "20px";
+
+  document.body.appendChild(clone);
+
+  const canvas =
+    await html2canvas(clone, {
+      scale: 2,
+      useCORS: true
+    });
+
+  document.body.removeChild(clone);
+
+  const imageData =
+    canvas.toDataURL("image/png");
+
+  const { jsPDF } = window.jspdf;
+
+  const pdf =
+    new jsPDF(
+      "p",
+      "mm",
+      "a4"
+    );
+
+  const pdfWidth = 210;
+
+  const pageHeight = 295;
+
+  const imgWidth = pdfWidth;
+
+  const imgHeight =
+    canvas.height *
+    imgWidth /
+    canvas.width;
+
+  let heightLeft =
+    imgHeight;
+
+  let position = 0;
+
+  pdf.addImage(
+    imageData,
+    "PNG",
+    0,
+    position,
+    imgWidth,
+    imgHeight
+  );
+
+  heightLeft -= pageHeight;
+
+  while (heightLeft > 0) {
+
+    position =
+      heightLeft - imgHeight;
+
+    pdf.addPage();
+
+    pdf.addImage(
+      imageData,
+      "PNG",
+      0,
+      position,
+      imgWidth,
+      imgHeight
+    );
+
+    heightLeft -= pageHeight;
+  }
+
+  pdf.save(
+    "JARR_Card.pdf"
+  );
 }
