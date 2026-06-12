@@ -400,9 +400,10 @@ textarea:focus {
 }
 
 .jarr-logo {
-  display: block;
-  width: 100%;
-  height: auto;
+
+  height: 80px;
+
+  width: auto;
 }
 
 .jarr-header h3 {
